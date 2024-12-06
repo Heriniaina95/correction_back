@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Correction</title>
+    <script>
+        async function translateText() {
+            const text = document.getElementById("text-input").value;
+            if (!text) {
+                alert("Please enter some text!");
+                return;
+            }
+
+            try {
+                const response = await fetch("http://localhost:5000/translate", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ text }),
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    document.getElementById("result").innerText = `Corrected Text: ${result.corrected_text}`;
+                } else {
+                    document.getElementById("result").innerText = `Error: ${result.error}`;
+                }
+            } catch (error) {
+                document.getElementById("result").innerText = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Text Correction</h1>
+    <textarea id="text-input" rows="5" cols="50" placeholder="Enter text to correct..."></textarea><br><br>
+    <button onclick="translateText()">Translate</button>
+    <p id="result"></p>
+</body>
+</html>
