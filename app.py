@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # Importez CORS
 from transformers import MarianMTModel, MarianTokenizer
 
 app = Flask(__name__)
+CORS(app)  # Active CORS pour toutes les origines
 
 # Chemin vers les modèles locaux
 model_fr_en_path = './model_fr_en'
