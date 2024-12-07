@@ -22,7 +22,16 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
 RUN pip install --upgrade pip
 
 # Étape 5: Installer les dépendances Python nécessaires
-RUN pip install --no-cache-dir Flask==2.2.3 Werkzeug==2.2.3 torch sentencepiece transformers==4.33.0
+RUN pip install --no-cache-dir \
+    Flask==2.2.3 \
+    Werkzeug==2.2.3 \
+    torch \
+    sentencepiece \
+    transformers==4.33.0 \
+    sacremoses \
+    numpy \
+    requests \
+    flask-cors
 
 # Étape 6: Définir le répertoire de travail
 RUN mkdir /app
@@ -35,8 +44,8 @@ COPY model_en_fr/ /app/model_en_fr
 # Étape 8: Copier tout le code de l'application dans le conteneur
 COPY . /app
 
-# Étape 9: Exposer le port 5050
+# Étape 9: Exposer le port 5000
 EXPOSE 5000
 
-# Étape 10: Lancer l'application Flask
+# Étape 10: Lancer l'application Flask (serveur de développement de Flask)
 CMD ["python", "app.py"]
